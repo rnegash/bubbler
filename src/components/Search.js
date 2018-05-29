@@ -1,23 +1,36 @@
 import React, { Component } from "react";
 import axios from 'axios';
 class Search extends Component {
-  state = {
-    associations: []
+  constructor(props) {
+    super(props);
+    this.state = {
+      associations: [],
+      value: "" 
+    }
+    this.handleClick = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
-  componentDidMount() {
-    axios.get("http://api.wordnik.com/v4/word.json/sun/relatedWords?api_key=9ad74996eed8057e662010fa8ef0770fd099c0190d9f3f71f").then(res => {
-      const associations = res.data[8].words;
-      console.log(associations)
-      this.setState({ associations });
 
-    })
+  handleClick(e) {
+    var apiUrl = "http://api.wordnik.com/v4/word.json/" + this.state.value + "/relatedWords?api_key=9ad74996eed8057e662010fa8ef0770fd099c0190d9f3f71f"
+    console.log(apiUrl)
+    e.preventDefault();
+    console.log(this.state.value)
+    axios.get(apiUrl).then(res => {
+      let associations = res.data[res.data.length-1].words; 
+      this.setState({ associations });
+      })
+  }
+
+  handleChange(e) {
+    this.setState({value: e.target.value});
   }
 
   render() {
     return (
       <div>
-        <input className="input" type="text" placeholder="Text input" />
-        <a className="button">Button</a>
+        <input className="input" type="text" placeholder="Text input" value={this.state.value} onChange={this.handleChange} />
+        <a onClick={this.handleClick} className="button">Button</a>
         <ul>
           {this.state.associations.map(association => <li>{association}</li>)}
 
