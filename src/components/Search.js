@@ -23,41 +23,25 @@ class Search extends Component {
 
   makeWikiCall(url) {
     axios.get(url).then(res => {
-      let result = res.data;
-      console.log(result);
+      console.log(res);
+      let result = res.data.query.pages;
+      let pageId;
+      let relatedImages = [];
+
+      // getting the ID of the image object
+      for (var key in result) {
+          pageId = key;
+      }
+
+      // get the list of image names
+      for (let i = 0; i < result[pageId].images.length; i++) {
+          relatedImages.push(result[pageId].images[i].title);
+      }
+       
+      console.log("rel img ", relatedImages)
+       
+     
     });
-  }
-
-  makeGettyCall(word) {
-    // var api = require("gettyimages-api");
-    var creds = {
-      apiKey: "fzn7csa34kff7eh2ftz86pxs",
-      apiSecret: "5rWNb6YTP8QMSE4fYJrxXJnj8J4uqZe46TSZ5DW2nWY9K",
-      username: "rnegash",
-      password: "babbelberlin2018"
-    };
-    var client = new api(creds);
-    client
-      .searchimages()
-      .withPage(1)
-      .withPageSize(1)
-      .withPhrase("beach")
-      .execute()
-      .then(
-        response => {
-          console.log(JSON.stringify(response.images[0]));
-        },
-        err => {
-          throw err;
-        }
-      );
-
-    // axios.get(url).then(res => {
-    //   let relatedImages = res.data;
-    //   console.log(relatedImages);
-    //
-    //   //this.setState({ relatedWords });
-    // });
   }
 
   handleClick(e) {
@@ -103,20 +87,24 @@ class Search extends Component {
                   Find!
                 </button>
               </div>
-            </div>
-          </div>
-        </div>
+                </div>
+              <div className="columns">
+              <div className="column">
+                <ul>
+                {this.state.relatedWords.map(relatedWord => <li>{relatedWord}</li>)}
+                </ul>
+                                <ul>
+                {this.state.relatedImages.map(relatedImage => <li>{relatedImage}</li>)}
+                </ul>
+              </div>
+                  </div>
+              </div>
+              </div>
       </section>
-      // <div className="column">
-      //   <ul>
-      //     {this.state.relatedWords.map(relatedWord => <li>{relatedWord}</li>)}
-      //   </ul>
-      // </div>
     );
   }
 }
 
 export default Search;
 
-//
-// {this.state.associations.map(association => <li>{association[i]}</li>)}
+
