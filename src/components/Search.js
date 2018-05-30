@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import api from "gettyimages-api";
+import wtf from "wtf_wikipedia";
 
 class Search extends Component {
   constructor(props) {
@@ -8,7 +8,7 @@ class Search extends Component {
     this.state = {
       relatedWords: [],
       relatedImages: [],
-      value: ""
+      value: "sun"
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -23,41 +23,48 @@ class Search extends Component {
 
   makeWikiCall(url) {
     axios.get(url).then(res => {
-      console.log(res);
       let result = res.data.query.pages;
-      let pageId;
+      console.log(result);
+      let pageId = [];
       let relatedImages = [];
 
       // getting the ID of the image object
-      for (var key in result) {
-          pageId = key;
+      for (var keys in result) {
+        pageId.push(keys);
       }
+      console.log(pageId);
 
       // get the list of image names
-      for (let i = 0; i < result[pageId].images.length; i++) {
-          relatedImages.push(result[pageId].images[i].title);
+      for (var i = 0; i < pageId.length; i++) {
+        console.log(result[pageId[i]].imageinfo[0].url);
+        var imageUrl = result[pageId[i]].imageinfo[0].url;
+        relatedImages.push(imageUrl);
       }
-       
-      console.log("rel img ", relatedImages)
-       
-     
+      // for (let i = 0; i < result[pageId].images.length; i++) {
+      //   // imageUrl = imageUrl.replace(" ", "_");
+      //   // console.log(imageUrl);
+      //   // relatedImages.push(imageUrl);
+      // }
+
+      this.setState({ relatedImages });
+
+      console.log("rel img ", relatedImages);
     });
   }
 
   handleClick(e) {
     e.preventDefault();
     let searchWord = this.state.value;
+
     let wikiUrl =
-      "https://en.wikipedia.org/w/api.php?action=query&prop=images&titles=" +
+      "https://commons.wikimedia.org/w/api.php?action=query&generator=images&prop=imageinfo&gimlimit=10&redirects=1&titles=" +
       searchWord +
-      "&format=json";
+      "&iiprop=canonicaltitle|url|size|dimensions&format=json";
     let wordnikUrl =
       "http://api.wordnik.com/v4/word.json/" +
       searchWord +
       "/relatedWords?api_key=9ad74996eed8057e662010fa8ef0770fd099c0190d9f3f71f";
-    let gettyUrl =
-      "https://api.gettyimages.com/v3/search/images?fields=id,title,thumb,referral_destinations&sort_order=best&phrase=" +
-      searchWord;
+
     this.makeWordnikCall(wordnikUrl);
     this.makeWikiCall(wikiUrl);
   }
@@ -87,24 +94,30 @@ class Search extends Component {
                   Find!
                 </button>
               </div>
-                </div>
-              <div className="columns">
+            </div>
+            <div className="columns">
               <div className="column">
                 <ul>
-                {this.state.relatedWords.map(relatedWord => <li>{relatedWord}</li>)}
+                  {this.state.relatedWords.map(relatedWord => (
+                    <li>{relatedWord}</li>
+                  ))}
                 </ul>
-                                <ul>
-                {this.state.relatedImages.map(relatedImage => <li>{relatedImage}</li>)}
+              </div>
+              <div className="column">
+                <ul>
+                  {this.state.relatedImages.map(relatedImage => (
+                    <li>
+                      <img src={relatedImage} />
+                    </li>
+                  ))}
                 </ul>
               </div>
-                  </div>
-              </div>
-              </div>
+            </div>
+          </div>
+        </div>
       </section>
     );
   }
 }
 
 export default Search;
-
-
