@@ -84,21 +84,34 @@ class Search extends Component {
 
   render() {
     return (
-      <div>
-        <input
-          className="input"
-          type="text"
-          placeholder="Text input"
-          value={this.state.value}
-          onChange={this.handleChange}
-        />
-        <a onClick={this.handleClick} className="button">
-          Button
-        </a>
-        <ul>
-          {this.state.relatedWords.map(relatedWord => <li>{relatedWord}</li>)}
-        </ul>
-      </div>
+      <section className="hero">
+        <div className="hero-body">
+          <div className="container is-four-fifths">
+            <div className="columns">
+              <div className="column  is-offset-one-quarter">
+                <input
+                  className="input"
+                  type="text"
+                  placeholder="What word have you learned?"
+                  value={this.state.value}
+                  onChange={this.handleChange}
+                />
+              </div>
+
+              <div className="column is-one-quarter">
+                <button onClick={this.handleClick} className="button">
+                  Find!
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      // <div className="column">
+      //   <ul>
+      //     {this.state.relatedWords.map(relatedWord => <li>{relatedWord}</li>)}
+      //   </ul>
+      // </div>
     );
   }
 }
