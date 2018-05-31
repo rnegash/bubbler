@@ -33,14 +33,16 @@ class App extends Component {
       let relatedImages = [];
 
       // getting the ID of the image object
-      for (var keys in result) {
-        pageId.push(keys);
+      for (var key in result) {
+      	if(key !== "-1"){
+        pageId.push(key);
+      	}
       }
       console.log(pageId);
 
       // get the list of image names
       for (var i = 0; i < pageId.length; i++) {
-        console.log(result[pageId[i]].imageinfo[0].url);
+        console.log( "result", result[pageId[i]].imageinfo[0].url);
         var imageUrl = result[pageId[i]].imageinfo[0].url;
         relatedImages.push(imageUrl);
       }
