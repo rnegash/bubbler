@@ -20,6 +20,10 @@ class App extends Component {
   }
   makeWordnikCall(url) {
     axios.get(url).then(res => {
+    	if (!res.data[res.data.length - 1]) {
+    		this.setState({relatedWords: ["Sorry, there are no related words"]});
+    		return console.log("No words!");
+    	}
       let relatedWords = res.data[res.data.length - 1].words;
       this.setState({ relatedWords });
     });
@@ -27,10 +31,16 @@ class App extends Component {
 
   makeWikiCall(url) {
     axios.get(url).then(res => {
+    	if (!res.data.query) {
+    		this.setState({relatedImages: []});
+      	return console.log("No images!");
+
+      } 
       let result = res.data.query.pages;
       console.log(result);
       let pageId = [];
       let relatedImages = [];
+      
 
       // getting the ID of the image object
       for (var key in result) {
@@ -71,7 +81,6 @@ class App extends Component {
   }
 
   handleChange(e) {
-  	console.log(e);
     this.setState({ value: e.target.value });
   }
 
