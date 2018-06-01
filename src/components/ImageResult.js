@@ -4,13 +4,18 @@ class ImageResult extends Component {
   render() {
     return (
       <div className="container">
-        <ul>
-          {this.props.searchResult.map(relatedImage => (
-            <li>
-              <img src={relatedImage} />
-            </li>
-          ))}
-        </ul>
+        {this.props.searchResult.map(relatedImage => (
+          <img
+            key={relatedImage}
+            alt={relatedImage}
+            src={relatedImage}
+            style={{
+              flex: 1,
+              alignSelf: "stretch",
+              height: 250
+            }}
+          />
+        ))}
       </div>
     );
   }
