@@ -8,7 +8,7 @@ import "./App.css";
 import "bulma/css/bulma.css";
 
 class App extends Component {
-	constructor(props) {
+  constructor(props) {
     super(props);
     this.state = {
       relatedWords: [],
@@ -20,10 +20,10 @@ class App extends Component {
   }
   makeWordnikCall(url) {
     axios.get(url).then(res => {
-    	if (!res.data[res.data.length - 1]) {
-    		this.setState({relatedWords: ["Sorry, there are no related words"]});
-    		return console.log("No words!");
-    	}
+      if (!res.data[res.data.length - 1]) {
+        this.setState({ relatedWords: ["Sorry, there are no related words"] });
+        return console.log("No words!");
+      }
       let relatedWords = res.data[res.data.length - 1].words;
       this.setState({ relatedWords });
     });
@@ -31,28 +31,26 @@ class App extends Component {
 
   makeWikiCall(url) {
     axios.get(url).then(res => {
-    	if (!res.data.query) {
-    		this.setState({relatedImages: []});
-      	return console.log("No images!");
-
-      } 
+      if (!res.data.query) {
+        this.setState({ relatedImages: [] });
+        return console.log("No images!");
+      }
       let result = res.data.query.pages;
       console.log(result);
       let pageId = [];
       let relatedImages = [];
-      
 
       // getting the ID of the image object
       for (var key in result) {
-      	if(key !== "-1"){
-        pageId.push(key);
-      	}
+        if (key !== "-1") {
+          pageId.push(key);
+        }
       }
       console.log(pageId);
 
       // get the list of image names
       for (var i = 0; i < pageId.length; i++) {
-        console.log( "result", result[pageId[i]].imageinfo[0].url);
+        console.log("result", result[pageId[i]].imageinfo[0].url);
         var imageUrl = result[pageId[i]].imageinfo[0].url;
         relatedImages.push(imageUrl);
       }
@@ -85,14 +83,18 @@ class App extends Component {
   }
 
   render() {
-  	    const {relatedImages,relatedWords, value} = this.state;
+    const { relatedImages, relatedWords, value } = this.state;
 
     return (
       <div className="container">
         <Header />
-        <Search searchQuery={value} onChange={this.handleChange} search={this.handleClick}/>
-        <ImageResult searchResult={relatedImages}/>
-        <TextResult searchResult={relatedWords}/>
+        <Search
+          searchQuery={value}
+          onChange={this.handleChange}
+          search={this.handleClick}
+        />
+        <TextResult searchResult={relatedWords} />
+        <ImageResult searchResult={relatedImages} />
       </div>
     );
   }

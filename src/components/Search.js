@@ -3,10 +3,8 @@ import axios from "axios";
 
 class Search extends Component {
   constructor(props) {
-  super(props);
+    super(props);
   }
-
-  
 
   render() {
     return (
@@ -15,17 +13,23 @@ class Search extends Component {
           <div className="container is-four-fifths">
             <div className="columns">
               <div className="column  is-offset-one-quarter">
-                <input
-                  className="input"
-                  type="text"
-                  placeholder="What word have you learned?"
-                  value={this.props.searchQuery}
-                  onChange={this.props.onChange}
-                />
+                <form onSubmit={this.props.search}>
+                  <input
+                    className="input"
+                    type="text"
+                    placeholder="What word have you learned?"
+                    value={this.props.searchQuery}
+                    onChange={this.props.onChange}
+                  />
+                </form>
               </div>
 
               <div className="column is-one-quarter">
-                <button onClick={this.props.search} className="button">
+                <button
+                  type="submit"
+                  onClick={this.props.search}
+                  className="button"
+                >
                   Find!
                 </button>
               </div>
