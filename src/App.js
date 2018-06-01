@@ -68,10 +68,11 @@ class App extends Component {
       "https://commons.wikimedia.org/w/api.php?action=query&generator=images&prop=imageinfo&gimlimit=10&redirects=1&titles=" +
       searchWord +
       "&iiprop=canonicaltitle|url|size|dimensions&format=json";
+    let api_key = process.env.REACT_APP_API_KEY;
     let wordnikUrl =
       "http://api.wordnik.com/v4/word.json/" +
       searchWord +
-      "/relatedWords?api_key=9ad74996eed8057e662010fa8ef0770fd099c0190d9f3f71f";
+      "/relatedWords?api_key="+api_key;
 
     this.makeWordnikCall(wordnikUrl);
     this.makeWikiCall(wikiUrl);
