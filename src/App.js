@@ -4,6 +4,7 @@ import Header from "./components/Header.js";
 import ImageResult from "./components/ImageResult.js";
 import TextResult from "./components/TextResult.js";
 import axios from "axios";
+import jsonp from "jsonp";
 import "bulma/css/bulma.css";
 import "./App.css";
 
@@ -30,37 +31,31 @@ class App extends Component {
         this.setState({ relatedWords: ["Sorry, there are no related words"] });
         return console.log("No words!");
       }
-      console.log(res);
-
       let relatedWords = res.data[res.data.length - 1].words;
       this.setState({ relatedWords });
     });
   }
 
   makeWikiCall(url) {
-    axios.get(url).then(res => {
-      if (!res.data.query) {
+    jsonp(url, (err, data) => {
+      if (!data.query) {
         this.setState({ relatedImages: [] });
         return console.log("No images!");
       }
-      let result = res.data.query.pages;
-      //console.log(res);
+      let result = data.query.pages;
       let pageIds = [];
       let relatedImages = [];
+      // getting the keys of the page objects
 
-      // getting the ID of the image object
       for (var key in result) {
         if (key !== "-1") {
           pageIds.push(key);
         }
       }
-
-      // get the list of image names
       for (var i = 0; i < pageIds.length; i++) {
         var imageUrl = result[pageIds[i]].imageinfo[0].url;
         relatedImages.push(imageUrl);
       }
-
       this.setState({ relatedImages });
     });
   }
