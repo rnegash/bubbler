@@ -1,4 +1,13 @@
 import React, { Component } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Switch,
+  Redirect
+} from "react-router-dom";
+
+import SearchResult from "./SearchResult.js";
 
 class Search extends Component {
   render() {
@@ -25,7 +34,7 @@ class Search extends Component {
                   onClick={this.props.search}
                   className="button"
                 >
-                  Find!
+                  <Link to="/searchresult">Find!</Link>
                 </button>
               </div>
             </div>

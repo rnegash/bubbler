@@ -1,8 +1,16 @@
 import React, { Component } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Switch,
+  Redirect
+} from "react-router-dom";
+import Home from "./components/Home.js";
 import Search from "./components/Search.js";
 import Header from "./components/Header.js";
-import ImageResult from "./components/ImageResult.js";
-import TextResult from "./components/TextResult.js";
+import SearchResult from "./components/SearchResult.js";
+
 import axios from "axios";
 import jsonp from "jsonp";
 import "bulma/css/bulma.css";
@@ -72,7 +80,8 @@ class App extends Component {
     let wordnikUrl =
       "http://api.wordnik.com/v4/word.json/" +
       searchWord +
-      "/relatedWords?api_key="+api_key;
+      "/relatedWords?api_key=" +
+      api_key;
 
     this.makeWordnikCall(wordnikUrl);
     this.makeWikiCall(wikiUrl);
@@ -86,16 +95,32 @@ class App extends Component {
     const { relatedImages, relatedWords, value } = this.state;
 
     return (
-      <div className="container">
-        <Header />
-        <Search
-          searchQuery={value}
-          onChange={this.handleChange}
-          search={this.handleClick}
-        />
-        <TextResult searchResult={relatedWords} />
-        <ImageResult searchResult={relatedImages} />
-      </div>
+      <Router>
+        <div className="container">
+          <div className="container">
+            <Search
+              searchQuery={value}
+              onChange={this.handleChange}
+              search={this.handleClick}
+            />
+          </div>
+          <Switch>
+            <Route exact={true} path="/" component={Home} />
+
+            <Route
+              exact
+              path="/searchresult"
+              render={props => (
+                <SearchResult
+                  {...props}
+                  relatedImages={relatedImages}
+                  relatedWords={relatedWords}
+                />
+              )}
+            />
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }
