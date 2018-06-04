@@ -7,6 +7,7 @@ class SearchResult extends Component {
   render() {
     return (
       <div className="container">
+        <Header />
         <TextResult searchResult={this.props.relatedWords} />
         <ImageResult searchResult={this.props.relatedImages} />
       </div>
