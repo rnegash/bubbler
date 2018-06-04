@@ -91,41 +91,42 @@ class App extends Component {
     this.setState({ value: e.target.value });
   }
   componentWillMount() {
-    this.urlId = shortid.generate();
-    console.log(this.urlId);
+    this.userId = shortid.generate();
+    console.log(this.userId);
   }
 
   render() {
     const { relatedImages, relatedWords, value } = this.state;
-    //let urlId = shortid.generate();
-    //console.log(this.urlId);
 
     return (
       <Router>
         <div className="container">
           <div className="container">
+            <Header />
+
             <Search
               searchQuery={value}
               onChange={this.handleChange}
               search={this.handleClick}
-              urlparam={this.urlId}
+              userId={this.userId}
             />
           </div>
           <Switch>
             <Route
               exact
               path="/"
-              render={() => <Redirect to={`/${this.urlId}/`} />}
+              render={() => <Redirect to={`/${this.userId}/`} />}
             />
 
             <Route
               exact
-              path={`/${this.urlId}/searchresult`}
+              path={`/${this.userId}/searchresult`}
               render={props => (
                 <SearchResult
                   {...props}
                   relatedImages={relatedImages}
                   relatedWords={relatedWords}
+                  userId={this.userId}
                 />
               )}
             />

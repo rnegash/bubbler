@@ -27,7 +27,7 @@ class Search extends Component {
                   onClick={this.props.search}
                   className="button"
                 >
-                  <Link to={`/${this.props.urlparam}/searchresult`}>Find!</Link>
+                  <Link to={`/${this.props.userId}/searchresult`}>Find!</Link>
                 </button>
               </div>
             </div>

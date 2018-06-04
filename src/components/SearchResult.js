@@ -7,9 +7,17 @@ class SearchResult extends Component {
   render() {
     return (
       <div className="container">
-        <Header />
         <TextResult searchResult={this.props.relatedWords} />
         <ImageResult searchResult={this.props.relatedImages} />
+        <button
+          type="submit"
+          className="button"
+          onClick={() => {
+            console.log("saving" + this.props.userId);
+          }}
+        >
+          Save!
+        </button>
       </div>
     );
   }
