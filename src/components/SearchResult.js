@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Header from "./Header.js";
 import ImageResult from "./ImageResult.js";
 import TextResult from "./TextResult.js";
 

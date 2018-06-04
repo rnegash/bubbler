@@ -12,8 +12,6 @@ import SearchResult from "./components/SearchResult.js";
 import makeRelatedWordsCall from "./js/makeRelatedWordsCall.js";
 import makeRelatedImagesCall from "./js/makeRelatedImagesCall.js";
 
-import axios from "axios";
-import jsonp from "jsonp";
 import shortid from "shortid";
 
 import "bulma/css/bulma.css";
