@@ -74,7 +74,7 @@ class App extends Component {
       <Router>
         <div className="container">
           <div className="container">
-            <Header />
+            <Header userId={this.userId} />
 
             <Search
               searchQuery={value}
