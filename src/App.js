@@ -39,22 +39,22 @@ class App extends Component {
     e.preventDefault();
     let searchWord = this.state.value;
 
-    let wikiUrl =
+    let relatedImagesUrl =
       "https://commons.wikimedia.org/w/api.php?action=query&generator=images&prop=imageinfo&gimlimit=10&redirects=1&titles=" +
       searchWord +
       "&iiprop=canonicaltitle|url|size|dimensions&format=json";
     let api_key = process.env.REACT_APP_API_KEY;
-    let wordnikUrl =
+    let relatedWordsUrl =
       "http://api.wordnik.com/v4/word.json/" +
       searchWord +
       "/relatedWords?api_key=" +
       api_key;
 
-    makeRelatedWordsCall(wordnikUrl, response =>
+    makeRelatedWordsCall(relatedWordsUrl, response =>
       this.setState({ relatedWords: response })
     );
 
-    makeRelatedImagesCall(wikiUrl, response =>
+    makeRelatedImagesCall(relatedImagesUrl, response =>
       this.setState({ relatedImages: response })
     );
   }
