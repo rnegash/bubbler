@@ -1,16 +1,9 @@
 import React, { Component } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Switch,
-  Redirect
-} from "react-router-dom";
-
-import SearchResult from "./SearchResult.js";
+import { Link } from "react-router-dom";
 
 class Search extends Component {
   render() {
+    //console.log(this.props.urlparam);
     return (
       <section className="hero">
         <div className="hero-body">
@@ -34,7 +27,7 @@ class Search extends Component {
                   onClick={this.props.search}
                   className="button"
                 >
-                  <Link to="/searchresult">Find!</Link>
+                  <Link to={`/${this.props.urlparam}/searchresult`}>Find!</Link>
                 </button>
               </div>
             </div>

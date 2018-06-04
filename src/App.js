@@ -2,17 +2,17 @@ import React, { Component } from "react";
 import {
   BrowserRouter as Router,
   Route,
-  Link,
   Switch,
   Redirect
 } from "react-router-dom";
-import Home from "./components/Home.js";
 import Search from "./components/Search.js";
 import Header from "./components/Header.js";
 import SearchResult from "./components/SearchResult.js";
 
 import axios from "axios";
 import jsonp from "jsonp";
+import shortid from "shortid";
+
 import "bulma/css/bulma.css";
 import "./App.css";
 
@@ -90,9 +90,15 @@ class App extends Component {
   handleChange(e) {
     this.setState({ value: e.target.value });
   }
+  componentWillMount() {
+    this.urlId = shortid.generate();
+    console.log(this.urlId);
+  }
 
   render() {
     const { relatedImages, relatedWords, value } = this.state;
+    //let urlId = shortid.generate();
+    //console.log(this.urlId);
 
     return (
       <Router>
@@ -102,14 +108,19 @@ class App extends Component {
               searchQuery={value}
               onChange={this.handleChange}
               search={this.handleClick}
+              urlparam={this.urlId}
             />
           </div>
           <Switch>
-            <Route exact={true} path="/" component={Home} />
+            <Route
+              exact
+              path="/"
+              render={() => <Redirect to={`/${this.urlId}/`} />}
+            />
 
             <Route
               exact
-              path="/searchresult"
+              path={`/${this.urlId}/searchresult`}
               render={props => (
                 <SearchResult
                   {...props}
