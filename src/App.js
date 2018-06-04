@@ -9,6 +9,9 @@ import Search from "./components/Search.js";
 import Header from "./components/Header.js";
 import SearchResult from "./components/SearchResult.js";
 
+import makeRelatedWordsCall from "./js/makeRelatedWordsCall.js";
+import makeRelatedImagesCall from "./js/makeRelatedImagesCall.js";
+
 import axios from "axios";
 import jsonp from "jsonp";
 import shortid from "shortid";
@@ -33,40 +36,6 @@ class App extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
-  makeWordnikCall(url) {
-    axios.get(url).then(res => {
-      if (!res.data[res.data.length - 1]) {
-        this.setState({ relatedWords: ["Sorry, there are no related words"] });
-        return console.log("No words!");
-      }
-      let relatedWords = res.data[res.data.length - 1].words;
-      this.setState({ relatedWords });
-    });
-  }
-
-  makeWikiCall(url) {
-    jsonp(url, (err, data) => {
-      if (!data.query) {
-        this.setState({ relatedImages: [] });
-        return console.log("No images!");
-      }
-      let result = data.query.pages;
-      let pageIds = [];
-      let relatedImages = [];
-      // getting the keys of the page objects
-
-      for (var key in result) {
-        if (key !== "-1") {
-          pageIds.push(key);
-        }
-      }
-      for (var i = 0; i < pageIds.length; i++) {
-        var imageUrl = result[pageIds[i]].imageinfo[0].url;
-        relatedImages.push(imageUrl);
-      }
-      this.setState({ relatedImages });
-    });
-  }
 
   handleClick(e) {
     e.preventDefault();
@@ -83,8 +52,13 @@ class App extends Component {
       "/relatedWords?api_key=" +
       api_key;
 
-    this.makeWordnikCall(wordnikUrl);
-    this.makeWikiCall(wikiUrl);
+    makeRelatedWordsCall(wordnikUrl, response =>
+      this.setState({ relatedWords: response })
+    );
+
+    makeRelatedImagesCall(wikiUrl, response =>
+      this.setState({ relatedImages: response })
+    );
   }
 
   handleChange(e) {
