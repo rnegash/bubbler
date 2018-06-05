@@ -10,7 +10,7 @@ class SearchResult extends Component {
         <ImageResult searchResult={this.props.relatedImages} />
         <button
           type="submit"
-          className="button"
+          className="button savebutton"
           onClick={() => {
             console.log("saving" + this.props.userId);
           }}
