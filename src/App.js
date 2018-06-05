@@ -29,7 +29,7 @@ class App extends Component {
     this.state = {
       relatedWords: [],
       relatedImages: [],
-      value: ""
+      inputString: ""
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -37,12 +37,13 @@ class App extends Component {
 
   handleClick(e) {
     e.preventDefault();
-    let searchWord = this.state.value;
+    let searchWord = this.state.inputString;
 
     let relatedImagesUrl =
       "https://commons.wikimedia.org/w/api.php?action=query&generator=images&prop=imageinfo&gimlimit=10&redirects=1&titles=" +
       searchWord +
       "&iiprop=canonicaltitle|url|size|dimensions&format=json";
+
     let api_key = process.env.REACT_APP_API_KEY;
     let relatedWordsUrl =
       "http://api.wordnik.com/v4/word.json/" +
@@ -60,7 +61,7 @@ class App extends Component {
   }
 
   handleChange(e) {
-    this.setState({ value: e.target.value });
+    this.setState({ inputString: e.target.value });
   }
   componentWillMount() {
     this.userId = shortid.generate();
@@ -68,7 +69,7 @@ class App extends Component {
   }
 
   render() {
-    const { relatedImages, relatedWords, value } = this.state;
+    const { relatedImages, relatedWords, inputString } = this.state;
 
     return (
       <Router>
@@ -77,7 +78,7 @@ class App extends Component {
             <Header userId={this.userId} />
 
             <Search
-              searchQuery={value}
+              searchQuery={inputString}
               onChange={this.handleChange}
               search={this.handleClick}
               userId={this.userId}
