@@ -2,7 +2,6 @@ import axios from "axios";
 
 export default function makeRelatedWordsCall(searchWord, callback) {
   let api_key = process.env.REACT_APP_API_KEY;
-
   let relatedWordsUrl =
     "http://api.wordnik.com/v4/word.json/" +
     searchWord +

@@ -87,6 +87,7 @@ class App extends Component {
                   {...props}
                   relatedImages={relatedImages}
                   relatedWords={relatedWords}
+                  searchQuery={inputString}
                   userId={this.userId}
                 />
               )}

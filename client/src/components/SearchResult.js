@@ -2,7 +2,23 @@ import React, { Component } from "react";
 import ImageResult from "./ImageResult.js";
 import TextResult from "./TextResult.js";
 
+import axios from "axios";
+
 class SearchResult extends Component {
+  saveToDB(userId, searchQuery) {
+    axios
+      .post("http://localhost:8080/api/words/", {
+        userId: userId,
+        word: searchQuery
+      })
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
   render() {
     return (
       <div className="container">
@@ -11,9 +27,9 @@ class SearchResult extends Component {
         <button
           type="submit"
           className="button savebutton"
-          onClick={() => {
-            console.log("saving" + this.props.userId);
-          }}
+          onClick={() =>
+            this.saveToDB(this.props.userId, this.props.searchQuery)
+          }
         >
           Save!
         </button>
