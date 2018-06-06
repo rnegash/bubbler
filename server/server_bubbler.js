@@ -79,7 +79,24 @@ router.get("/", function(req, res) {
 router
   .route("/words")
 
-  // create a bear (accessed at POST http://localhost:8080/api/bears)
+  .get(function(req, res) {
+    Word.find(function(err, words) {
+      if (err) res.send(err);
+      console.log(req.query.userId);
+
+      res.json(words);
+    });
+  })
+  /*
+  .get(function(req, res) {
+    Word.find({ userId: req.query.userId }, function(err, words) {
+      if (err) res.send(err);
+      console.log(req.query.userId);
+
+      res.json(words);
+    });
+  })*/
+
   .post(function(req, res) {
     var word = new Word(); // create a new instance of the Bear model
     word.userId = req.body.userId; // set the bears name (comes from the request)
@@ -88,13 +105,6 @@ router
     word.save(function(err) {
       if (err) res.send(err);
       res.json({ message: "Word created!" });
-    });
-  })
-  .get(function(req, res) {
-    Word.find(function(err, words) {
-      if (err) res.send(err);
-
-      res.json(words);
     });
   });
 

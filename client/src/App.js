@@ -13,6 +13,7 @@ import makeRelatedWordsCall from "./js/makeRelatedWordsCall.js";
 import makeRelatedImagesCall from "./js/makeRelatedImagesCall.js";
 
 import shortid from "shortid";
+import axios from "axios";
 
 import "bulma/css/bulma.css";
 import "./App.css";
@@ -51,9 +52,22 @@ class App extends Component {
   handleChange(e) {
     this.setState({ inputString: e.target.value });
   }
+
+  getFromDb() {
+    axios
+      .get("http://localhost:8080/api/words")
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
   componentWillMount() {
     this.userId = shortid.generate();
     console.log(this.userId);
+    this.getFromDb();
   }
 
   render() {
