@@ -1,7 +1,12 @@
 import jsonp from "jsonp";
 
-export default function makeRelatedImagesCall(url, callback) {
-  jsonp(url, (err, data) => {
+export default function makeRelatedImagesCall(searchWord, callback) {
+  let relatedImagesUrl =
+    "https://commons.wikimedia.org/w/api.php?action=query&generator=images&prop=imageinfo&gimlimit=10&redirects=1&titles=" +
+    searchWord +
+    "&iiprop=canonicaltitle|url|size|dimensions&format=json";
+
+  jsonp(relatedImagesUrl, (err, data) => {
     if (!data.query) {
       callback([]);
       return console.log("No images!");
