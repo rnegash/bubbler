@@ -58,16 +58,14 @@ class App extends Component {
 
   getFromDb() {
     axios
-      .get("http://localhost:8080/api/words?userId=dhfsioudhfs")
+      .get("http://localhost:8080/api/words?userId=" + this.userId)
       .then(
         function(response) {
           let listOfWords = [];
           for (var i = 0; i < response.data.length; i++) {
             listOfWords.push(response.data[i].word);
           }
-          this.setState({ savedWords: listOfWords }, function() {
-            console.log("state ", this.state);
-          });
+          this.setState({ savedWords: listOfWords });
         }.bind(this)
       )
       .catch(function(error) {
@@ -76,18 +74,11 @@ class App extends Component {
   }
 
   componentWillMount() {
-    //move this to / so it doesnt happen when user goes to /userID
-
-    /*
-    if currentLocation!- null
-    */
     let userisOnRoot = window.location.pathname === "/";
     if (userisOnRoot) {
       this.userId = shortid.generate();
     } else {
       let currentLocation = window.location.pathname;
-
-      console.log(currentLocation);
       this.userId = currentLocation.replace(/\//g, "");
       this.getFromDb(this.userId);
     }
@@ -127,7 +118,11 @@ class App extends Component {
               exact
               path={`/${this.userId}/`}
               render={props => (
-                <SavedWords {...props} userWords={this.state.savedWords} />
+                <SavedWords
+                  {...props}
+                  userId={this.userId}
+                  userWords={this.state.savedWords}
+                />
               )}
             />
             <Route
