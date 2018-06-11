@@ -79,15 +79,15 @@ router.get("/", function(req, res) {
 router
   .route("/words")
 
-  .get(function(req, res) {
+  /*.get(function(req, res) {
     Word.find(function(err, words) {
       if (err) res.send(err);
       console.log(req.query.userId);
 
       res.json(words);
     });
-  })
-  /*
+  })*/
+
   .get(function(req, res) {
     Word.find({ userId: req.query.userId }, function(err, words) {
       if (err) res.send(err);
@@ -95,7 +95,7 @@ router
 
       res.json(words);
     });
-  })*/
+  })
 
   .post(function(req, res) {
     var word = new Word(); // create a new instance of the Bear model

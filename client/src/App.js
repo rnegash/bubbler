@@ -8,6 +8,7 @@ import {
 import Search from "./components/Search.js";
 import Header from "./components/Header.js";
 import SearchResult from "./components/SearchResult.js";
+import SavedWords from "./components/SavedWords.js";
 
 import makeRelatedWordsCall from "./js/makeRelatedWordsCall.js";
 import makeRelatedImagesCall from "./js/makeRelatedImagesCall.js";
@@ -30,10 +31,12 @@ class App extends Component {
     this.state = {
       relatedWords: [],
       relatedImages: [],
+      savedWords: [],
       inputString: ""
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.getFromDb = this.getFromDb.bind(this);
   }
 
   handleClick(e) {
@@ -55,19 +58,28 @@ class App extends Component {
 
   getFromDb() {
     axios
-      .get("http://localhost:8080/api/words")
-      .then(function(response) {
-        console.log(response);
-      })
+      .get("http://localhost:8080/api/words?userId=Hy3Qz6ix7")
+      .then(
+        function(response) {
+          let listOfWords = [];
+          for (var i = 0; i < response.data.length; i++) {
+            listOfWords.push(response.data[i].word);
+          }
+          this.setState({ savedWords: listOfWords }, function() {
+            console.log("state ", this.state);
+          });
+        }.bind(this)
+      )
       .catch(function(error) {
         console.log(error);
       });
   }
 
   componentWillMount() {
+    //move this to / so it doesnt happen when user goes to /userID
     this.userId = shortid.generate();
     console.log(this.userId);
-    this.getFromDb();
+    this.getFromDb(this.userId);
   }
 
   render() {
@@ -104,6 +116,13 @@ class App extends Component {
                   searchQuery={inputString}
                   userId={this.userId}
                 />
+              )}
+            />
+            <Route
+              exact
+              path={"/Hy3Qz6ix7/"}
+              render={props => (
+                <SavedWords {...props} userWords={this.state.savedWords} />
               )}
             />
           </Switch>
