@@ -58,7 +58,7 @@ class App extends Component {
 
   getFromDb() {
     axios
-      .get("http://localhost:8080/api/words?userId=Hy3Qz6ix7")
+      .get("http://localhost:8080/api/words?userId=dhfsioudhfs")
       .then(
         function(response) {
           let listOfWords = [];
@@ -77,9 +77,20 @@ class App extends Component {
 
   componentWillMount() {
     //move this to / so it doesnt happen when user goes to /userID
-    this.userId = shortid.generate();
-    console.log(this.userId);
-    this.getFromDb(this.userId);
+
+    /*
+    if currentLocation!- null
+    */
+    let userisOnRoot = window.location.pathname === "/";
+    if (userisOnRoot) {
+      this.userId = shortid.generate();
+    } else {
+      let currentLocation = window.location.pathname;
+
+      console.log(currentLocation);
+      this.userId = currentLocation.replace(/\//g, "");
+      this.getFromDb(this.userId);
+    }
   }
 
   render() {
@@ -101,12 +112,6 @@ class App extends Component {
           <Switch>
             <Route
               exact
-              path="/"
-              render={() => <Redirect to={`/${this.userId}/`} />}
-            />
-
-            <Route
-              exact
               path={`/${this.userId}/searchresult`}
               render={props => (
                 <SearchResult
@@ -120,10 +125,15 @@ class App extends Component {
             />
             <Route
               exact
-              path={"/Hy3Qz6ix7/"}
+              path={`/${this.userId}/`}
               render={props => (
                 <SavedWords {...props} userWords={this.state.savedWords} />
               )}
+            />
+            <Route
+              exact
+              path="/"
+              render={() => <Redirect to={`/${this.userId}/`} />}
             />
           </Switch>
         </div>
