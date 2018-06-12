@@ -58,7 +58,7 @@ class App extends Component {
 
   getFromDb() {
     axios
-      .get("http://localhost:8080/api/words?userId=" + this.userId)
+      .get("/api/words?userId=" + this.userId)
       .then(
         function(response) {
           let listOfWords = [];
