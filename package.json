@@ -1,0 +1,23 @@
+{
+  "name": "bubbler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.18.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "postinstall": "npm install --prefix server && npm install --prefix client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rnegash/bubbler.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rnegash/bubbler/issues"
+  },
+  "homepage": "https://github.com/rnegash/bubbler#readme"
+}
