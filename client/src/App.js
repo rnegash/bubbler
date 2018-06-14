@@ -40,7 +40,6 @@ class App extends Component {
   }
 
   handleClick(e) {
-    e.preventDefault();
     let searchWord = this.state.inputString;
 
     makeRelatedWordsCall(searchWord, response =>

@@ -22,13 +22,13 @@ class Search extends Component {
               </div>
 
               <div className="column is-one-quarter">
-                <button
-                  type="submit"
+                <Link
                   onClick={this.props.search}
                   className="button"
+                  to={`/${this.props.userId}/searchresult`}
                 >
-                  <Link to={`/${this.props.userId}/searchresult`}>Find!</Link>
-                </button>
+                  Find!
+                </Link>
               </div>
             </div>
           </div>
