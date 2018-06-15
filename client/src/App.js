@@ -78,7 +78,9 @@ class App extends Component {
       this.userId = shortid.generate();
     } else {
       let currentLocation = window.location.pathname;
-      this.userId = currentLocation.replace(/\//g, "");
+      this.userId = currentLocation
+        .replace(/\//g, "")
+        .replace(/searchresult/g, "");
       this.getFromDb(this.userId);
     }
   }
