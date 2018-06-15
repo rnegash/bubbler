@@ -9,11 +9,20 @@ export default function makeRelatedWordsCall(searchWord, callback) {
     api_key;
 
   axios.get(relatedWordsUrl).then(res => {
-    if (!res.data[res.data.length - 1]) {
+    let sameContext = res.data.length - 1;
+    if (!res.data[sameContext]) {
       callback(["Sorry, there are no related words"]);
       return console.log("No words!");
     }
-    let relatedWords = res.data[res.data.length - 1].words;
+    let relatedWords;
+    for (let relationshipType of Object.values(res.data)) {
+      if (relationshipType.relationshipType === "same-context") {
+        relatedWords = relationshipType.words;
+        break;
+      } else {
+        relatedWords = res.data[sameContext].words;
+      }
+    }
     callback((relatedWords: relatedWords));
   });
 }
